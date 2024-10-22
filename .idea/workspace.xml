@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="b9ce8b65-456e-425a-98f2-922def2c04a7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cspydo/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cspydo/kypoint/KyPoint.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cspydo/controllers/KeyValueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cspydo/kypoint/controllers/KeyValueController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/cspydo/services/KeyValueStore.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cspydo/kypoint/services/KeyValueStore.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/cspydo/kypoint/controllers/KeyValueController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/cspydo/kypoint/controllers/KeyValueController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +25,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -105,7 +103,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1729389195930</updated>
-      <workItem from="1729389196872" duration="33683000" />
+      <workItem from="1729389196872" duration="35652000" />
     </task>
     <servers />
   </component>
