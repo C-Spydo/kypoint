@@ -2,46 +2,55 @@ package com.cspydo.services;
 
 import java.io.*;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class KeyValueStore {
     private final ConcurrentHashMap<String, String> store;
-    private final String filePath;
+    private final String[] replicaPaths;
 
-    // Constructor accepting a file path
+    // Constructor initializes the paths for the replicas
     public KeyValueStore() {
-        this.filePath = Objects.requireNonNull(getClass().getClassLoader().getResource("datastore.bin")).getFile();
+        this.replicaPaths = new String[] {
+                "datastore.bin",
+                "datastore_replica_one.bin",
+                "datastore_replica_two.bin",
+                "datastore_replica_three.bin"
+        };
         this.store = new ConcurrentHashMap<>();
         load(); // Load existing data at startup
     }
 
-    // Load the key-value pairs from the binary file
+    // Load the key-value pairs from the available replica
     public void load() {
-        File file = new File(filePath);
-        if (file.exists() && file.length() > 0) { // Check if the file exists and is not empty
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
-                ConcurrentHashMap<String, String> loadedStore = (ConcurrentHashMap<String, String>) ois.readObject();
-                store.putAll(loadedStore); // Add loaded entries to the current store
-            } catch (EOFException e) {
-                // Handle the case where the file is empty
-                System.out.println("EOFException: The file is empty or contains no valid serialized data.");
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+        for (String path : replicaPaths) {
+            File file = new File(path);
+            if (file.exists() && file.length() > 0) { // Check if the file exists and is not empty
+                try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path))) {
+                    ConcurrentHashMap<String, String> loadedStore = (ConcurrentHashMap<String, String>) ois.readObject();
+                    store.putAll(loadedStore); // Add loaded entries to the current store
+                    System.out.println("Loaded data from: " + path);
+                    break; // Stop loading once a valid replica is found
+                } catch (EOFException e) {
+                    System.out.println("EOFException: The file is empty or contains no valid serialized data.");
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("File " + path + " does not exist or is empty.");
             }
-        } else {
-            System.out.println("File does not exist or is empty. Initializing a new store.");
         }
     }
 
-    // Save the key-value pairs to the binary file
+    // Save the key-value pairs to all replicas
     public void save() {
-        System.out.println("Saving to: " + new File(filePath).getAbsolutePath());
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
-            oos.writeObject(store); // Serialize the ConcurrentHashMap
-            oos.flush(); // Flush the stream explicitly
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (String path : replicaPaths) {
+            System.out.println("Saving to: " + new File(path).getAbsolutePath());
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(path))) {
+                oos.writeObject(store); // Serialize the ConcurrentHashMap
+                oos.flush(); // Flush the stream explicitly
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -55,11 +64,9 @@ public class KeyValueStore {
         try {
             store.put(key, value);
             System.out.println("Saving store: " + store);
-
             save();
             return true;
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -68,11 +75,12 @@ public class KeyValueStore {
     // Optional: Remove a key-value pair from the store
     public void remove(String key) {
         store.remove(key);
-        save(); // Persist the change to the file
+        save(); // Persist the change to the replicas
     }
 
     // Optional: Get all keys
     public String[] keys() {
         return store.keySet().toArray(new String[0]);
     }
+
 }
