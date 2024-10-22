@@ -1,12 +1,24 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
+application {
+    mainClass = 'com.cspydo.kypoint.KyPoint'
+}
 group = 'com.cspydo'
 version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.cspydo.kypoint.KyPoint'
+        )
+    }
 }
 
 dependencies {
