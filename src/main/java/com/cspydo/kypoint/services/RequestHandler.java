@@ -1,5 +1,6 @@
 package com.cspydo.kypoint.services;
 
+import com.cspydo.kypoint.interfaces.IRequestHandler;
 import com.cspydo.kypoint.utils.Parser;
 import com.sun.net.httpserver.HttpExchange;
 
@@ -7,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RequestHandler {
+public class RequestHandler implements IRequestHandler {
 
     private final KeyValueStore keyValueStore = new KeyValueStore();
     String[] params;

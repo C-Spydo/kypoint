@@ -1,5 +1,6 @@
 package com.cspydo.kypoint.controllers;
 
+import com.cspydo.kypoint.interfaces.IRequestHandler;
 import com.cspydo.kypoint.services.KeyValueStore;
 import com.cspydo.kypoint.services.RequestHandler;
 import com.sun.net.httpserver.HttpExchange;
@@ -14,7 +15,7 @@ public class KeyValueController implements HttpHandler{
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        RequestHandler handler = new RequestHandler(exchange);
+        IRequestHandler handler = new RequestHandler(exchange);
         handler.process();
     }
 
