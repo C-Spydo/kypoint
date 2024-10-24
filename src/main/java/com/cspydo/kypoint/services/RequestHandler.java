@@ -6,7 +6,9 @@ import com.sun.net.httpserver.HttpExchange;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 
 public class RequestHandler implements IRequestHandler {
 
@@ -78,15 +80,22 @@ public class RequestHandler implements IRequestHandler {
         response.put("data", null);
     }
 
-    private void handleBatchPut() {
-        String key = params[0].split("=")[1];
-        String value = params[1].split("=")[1];
-
-        Boolean store_response = keyValueStore.put(key, value);
-        if(store_response){
+    private void handleBatchPut() throws IOException {
+        try {
+            List<Map<String, String>> keyValuePairs = Parser.parseRequestBody(exchange);
+            if (keyValuePairs != null) {
+                for (Map<String, String> keyValueMap : keyValuePairs) {
+                    for (Map.Entry<String, String> entry : keyValueMap.entrySet()) {
+                        String key = entry.getKey();
+                        String value = entry.getValue();
+                        keyValueStore.put(key, value);
+                    }
+                }
+            }
             response.put("message", "Key-Value pair added");
+
         }
-        else{
+        catch(IOException e){
             response.put("code", 500);
             response.put("message", "Error Occured, Please try again");
         }
@@ -101,17 +110,53 @@ public class RequestHandler implements IRequestHandler {
     }
 
     private void handleReadKeyRange() {
-        String key = params[0].split("=")[1];
-        String store_response = keyValueStore.get(key);
-        response.put("message", "Value retrieved successfully");
-        response.put("data", store_response);
+        // Extract startKey and endKey from the request params
+        int startKey = Integer.parseInt(params[0].split("=")[1]);
+        int endKey = Integer.parseInt(params[1].split("=")[1]);
+
+        // Store retrieved values in a list or map to return in the response
+        Map<String, String> retrievedValues = new HashMap<>();
+
+        // Iterate through the key-value store and retrieve values in the given range
+        for (Map.Entry<String, String> entry : keyValueStore.store.entrySet()) {
+            String key = entry.getKey();
+
+            try {
+                // Ensure the key is a numeric string
+                int numericKey = Integer.parseInt(key);
+
+                // Check if the numeric key is within the range
+                if (numericKey >= startKey && numericKey <= endKey) {
+                    // Add the key-value pair to the retrieved results
+                    retrievedValues.put(key, entry.getValue());
+                }
+            } catch (NumberFormatException e) {
+                // Ignore keys that are not numeric
+                System.out.println("Skipping non-numeric key: " + key);
+            }
+        }
+
+        // Prepare response with the retrieved values
+        if (!retrievedValues.isEmpty()) {
+            response.put("message", "Values retrieved successfully");
+            response.put("data", retrievedValues);
+        } else {
+            response.put("message", "No values found in the given range");
+            response.put("data", new HashMap<>());
+        }
     }
 
     private void handleDelete() {
         String key = params[0].split("=")[1];
-        String store_response = keyValueStore.get(key);
-        response.put("message", "Value retrieved successfully");
-        response.put("data", store_response);
+        Boolean store_response = keyValueStore.remove(key);
+        if(store_response){
+            response.put("message", "Key-Value pair Removed");
+        }
+        else{
+            response.put("code", 500);
+            response.put("message", "Error Occured, Please try again");
+        }
+        response.put("data", null);
     }
 
 }

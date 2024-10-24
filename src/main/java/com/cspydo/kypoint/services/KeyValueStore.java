@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class KeyValueStore {
-    private final ConcurrentHashMap<String, String> store;
+    final ConcurrentHashMap<String, String> store;
     private final String[] replicaPaths;
 
     // Constructor initializes the paths for the replicas
@@ -63,7 +63,6 @@ public class KeyValueStore {
     public Boolean put(String key, String value) {
         try {
             store.put(key, value);
-            System.out.println("Saving store: " + store);
             save();
             return true;
         } catch (Exception e) {
@@ -72,15 +71,16 @@ public class KeyValueStore {
         }
     }
 
-    // Optional: Remove a key-value pair from the store
-    public void remove(String key) {
-        store.remove(key);
-        save(); // Persist the change to the replicas
-    }
 
-    // Optional: Get all keys
-    public String[] keys() {
-        return store.keySet().toArray(new String[0]);
+    public Boolean remove(String key) {
+        try {
+            store.remove(key);
+            save(); // Persist the change to the replicas
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
