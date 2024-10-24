@@ -16,6 +16,7 @@ public class RequestHandler implements IRequestHandler {
     String[] params;
     HttpExchange exchange;
     Map<String, Object> response = new HashMap<>();
+
     public RequestHandler(HttpExchange exchange) throws IOException {
         this.exchange = exchange;
         process(); // Load existing data at startup
@@ -84,15 +85,10 @@ public class RequestHandler implements IRequestHandler {
         try {
             List<Map<String, String>> keyValuePairs = Parser.parseRequestBody(exchange);
             if (keyValuePairs != null) {
-                for (Map<String, String> keyValueMap : keyValuePairs) {
-                    for (Map.Entry<String, String> entry : keyValueMap.entrySet()) {
-                        String key = entry.getKey();
-                        String value = entry.getValue();
-                        keyValueStore.put(key, value);
-                    }
-                }
+                KeyValueBatchProcessor batchProcessor = new KeyValueBatchProcessor(keyValueStore);
+                batchProcessor.batchPut(keyValuePairs);
             }
-            response.put("message", "Key-Value pair added");
+            response.put("message", "Key-Value pairs added");
 
         }
         catch(IOException e){
