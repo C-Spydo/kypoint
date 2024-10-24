@@ -21,14 +21,17 @@ To run this project, you will need:
 ## Running the Application
 
 You have two options to run the project:
+1. **Using IntelliJ IDEA**:
+    - If you are using IntelliJ IDEA or any other Java compatible IDE, run the KyPoint.java file in src->main->java->com.cspydo.kypoint->KyPoint.java
 
-1. **Using Gradle**:
+      
+2. **Using Gradle**:
    - Run the following command to start the application:
      ```bash
      ./gradlew run
      ```
 
-2. **Using the JAR file**:
+3. **Using the JAR file**:
    - After building the project, you can run the application using the JAR file in the project root:
      ```bash
      java -jar kypoint.jar
