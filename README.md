@@ -33,7 +33,7 @@ You have two options to run the project:
      ```bash
      java -jar kypoint.jar
      ```
-
+The app runs on localhost port 25001, therefore, base url for API calls should be http://localhost:25001
 ## Binary Serialization vs Properties File
 Binary serialization is used in KyPoint for efficient data storage and retrieval. Here's why:
 - **Binary Format**: More compact and faster to read/write compared to text-based formats like properties files.
