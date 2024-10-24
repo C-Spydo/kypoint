@@ -1,0 +1,222 @@
+{
+	"info": {
+		"_postman_id": "794417fb-9892-42bf-98ee-03dbb3530efd",
+		"name": "KyPoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2025968",
+		"_collection_link": "https://galactic-resonance-250247.postman.co/workspace/CapiSageFlex~9cf773a5-2105-4e9a-b6e2-8fd7195f2c55/collection/2025968-794417fb-9892-42bf-98ee-03dbb3530efd?action=share&source=collection_link&creator=2025968"
+	},
+	"item": [
+		{
+			"name": "Put Value",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/key-value/put?key=name&value=Samson",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"key-value",
+						"put"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "name"
+						},
+						{
+							"key": "value",
+							"value": "Samson"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Put Value",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/key-value/put?key=name&value=Samsonina",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"key-value",
+								"put"
+							],
+							"query": [
+								{
+									"key": "key",
+									"value": "name"
+								},
+								{
+									"key": "value",
+									"value": "Samsonina"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Thu, 24 Oct 2024 06:17:26 GMT"
+						},
+						{
+							"key": "Content-type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-length",
+							"value": "62"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"code\": 200,\n    \"data\": null,\n    \"message\": \"Key-Value pair added\"\n}"
+				}
+			]
+		},
+		{
+			"name": "BatchPut",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\"key\": \"101\", \"value\": \"value101\"},\n    {\"key\": \"102\", \"value\": \"value102\"},\n    {\"key\": \"103\", \"value\": \"value103\"}\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/key-value/batch-put",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"key-value",
+						"batch-put"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/key-value/read?key=myKey",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"key-value",
+						"read"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "myKey"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Read Key Range",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/key-value/read-key-range?startKey=10&endKey=20",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"key-value",
+						"read-key-range"
+					],
+					"query": [
+						{
+							"key": "startKey",
+							"value": "10"
+						},
+						{
+							"key": "endKey",
+							"value": "20"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Read Key Range",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/key-value/read-key-range?startKey=10&endKey=20",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"key-value",
+								"read-key-range"
+							],
+							"query": [
+								{
+									"key": "startKey",
+									"value": "10"
+								},
+								{
+									"key": "endKey",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": "{\n    \"message\": \"Values retrieved successfully\",\n    \"data\": {\n        \"10\": \"val10\",\n        \"15\": \"val15\",\n        \"20\": \"val20\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/key-value/delete/?key=myKey",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"key-value",
+						"delete",
+						""
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "myKey"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
